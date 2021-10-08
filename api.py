@@ -67,7 +67,7 @@ data = pd.read_csv('sample30.csv' , encoding='latin-1')
 def home():
     return render_template('index.html')
     
-@app.route('/',methods=['POST'])
+@app.route('/predict',methods=['POST'])
 def recommend_pred():
     user_input = request.form.get('user_name')
     temp = pd.DataFrame(recommend_model.loc[user_input].sort_values(ascending=False))
