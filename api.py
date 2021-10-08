@@ -39,8 +39,8 @@ import xgboost as xgb  # Load this xgboost
 
 from collections import Counter
 from imblearn.over_sampling import SMOTE
-from sklearn.externals import joblib
-
+#from sklearn.externals import joblib
+import joblib
 
 app = Flask(__name__)  # intitialize the flaks app  # common 
 
