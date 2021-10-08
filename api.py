@@ -64,7 +64,7 @@ with open ('word_vectorizer.pkl','rb') as f:
 # Reading data from the the file 
 data = pd.read_csv('sample30.csv' , encoding='latin-1')
 
-render_template('index.html')
+#render_template('index.html')
 
 @app.route('/')
 def home():
