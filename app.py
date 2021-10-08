@@ -39,12 +39,15 @@ import xgboost as xgb  # Load this xgboost
 
 from collections import Counter
 from imblearn.over_sampling import SMOTE
+from sklearn.externals import joblib
 
 
 app = Flask(__name__)  # intitialize the flaks app  # common 
 
-with open('recommend_model.pkl','rb') as fp:
-	recommend_model = pickle.load(fp)
+#with open('recommend_model.pkl','rb') as fp:
+#	recommend_model = pickle.load(fp)
+
+recommend_model = joblib.load('recommend_model_joblib.pkl')
 
 with open ('sentiment_model.pkl','rb') as f:
     #unpickler = pickle.Unpickler(f)
@@ -56,7 +59,6 @@ with open ('lemmatize_sentence.pkl','rb') as f:
 with open ('word_vectorizer.pkl','rb') as f:
     word_vectorizer = pickle.load(f)
 
-lemmatizer = nltk.stem.WordNetLemmatizer()
 
 # Reading data from the the file 
 data = pd.read_csv('sample30.csv' , encoding='latin-1')
