@@ -67,7 +67,7 @@ data = pd.read_csv('sample30.csv' , encoding='latin-1')
 def home():
 	return render_template('index.html')
     
-
+@app.route('/',methods=['POST'])
 def recommend_pred():
     user_input = request.form.get('user_name')
     temp = pd.DataFrame(recommend_model.loc[user_input].sort_values(ascending=False))
@@ -98,8 +98,7 @@ def recommend_pred():
         top5 =  temp
     #top5.shape
     top5['score'] = round(top5['score'],2)
-
-
+    
     return  render_template('index.html',tables=[top5.to_html()], titles = top5.columns.values)
 
 
