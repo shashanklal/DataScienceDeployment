@@ -102,6 +102,12 @@ def recommend_pred():
     return  render_template('index.html',tables=[top5.to_html()], titles = top5.columns.values)
 
 
+# Any HTML template in Flask App render_template
+
+if __name__ == '__main__' :
+    app.run(debug=True )  # this command will enable the run of your flask app or api
+    
+    #,host="0.0.0.0")
 
 
 
