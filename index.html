@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <title>Product Recommendation System</title>
-<link href='https://fonts.googleapis.com/css?family=Arimo' rel='stylesheet' type='text/css'>
 </head>
 
 <body>
@@ -19,12 +18,11 @@
     </form>
 
    <br>
-   <H2>
+   <H2> Result </H2>
   {% for table in tables %}
     <h2>{{titles[loop.index]}}</h2>
     {{ table|safe }}
   {% endfor %}
- </H2>
  </div>
 
 </body>
