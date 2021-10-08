@@ -50,14 +50,13 @@ app = Flask(__name__)  # intitialize the flaks app  # common
 recommend_model = joblib.load('recommend_model_joblib.pkl')
 
 with open ('sentiment_model.pkl','rb') as f:
-    #unpickler = pickle.Unpickler(f)
-    sentiment_model = pickle.load(f)
+	sentiment_model = pickle.load(f)
     
 with open ('lemmatize_sentence.pkl','rb') as f:
-    lemmatize_sentence = pickle.load(f)
+	lemmatize_sentence = pickle.load(f)
 
 with open ('word_vectorizer.pkl','rb') as f:
-    word_vectorizer = pickle.load(f)
+	word_vectorizer = pickle.load(f)
 
 
 # Reading data from the the file 
@@ -69,44 +68,44 @@ def home():
     
 @app.route('/',methods=['POST'])
 def recommend_pred():
-    user_input = request.form.get('user_name')
-    temp = pd.DataFrame(recommend_model.loc[user_input].sort_values(ascending=False))
-    if temp.shape[0] > 20:    
-        top20 =  temp[0:20]
-    else:
-        top20 =  temp
-    top20 = top20.reset_index()
-    top20.rename(columns = {user_input:'score'}, inplace = True)
-    top20.insert(2, "Positive Sentiment(%)", "") 
-    for prod in top20['name']:    
-        #print(prod)
-        rev = data[data['name'] == prod]
-        if rev.shape[0] > 0:
-            temp = rev['reviews_text'].apply(lambda x: lemmatize_sentence(x))
-            temp1 = word_vectorizer.transform(temp)
-            temp2 = sentiment_model.predict(temp1)
-            pos = sum(temp2)
-            total = len(temp2)
-            percent = round(pos*100/total,2)
-            top20.loc[top20['name'] == prod, ['Positive Sentiment(%)']] = percent
+	user_input = request.form.get('user_name')
+    	temp = pd.DataFrame(recommend_model.loc[user_input].sort_values(ascending=False))
+    	if temp.shape[0] > 20:    
+        	top20 =  temp[0:20]
+    	else:
+        	top20 =  temp
+    	top20 = top20.reset_index()
+    	top20.rename(columns = {user_input:'score'}, inplace = True)
+    	top20.insert(2, "Positive Sentiment(%)", "") 
+    	for prod in top20['name']:    
+        	#print(prod)
+        	rev = data[data['name'] == prod]
+        	if rev.shape[0] > 0:
+            		temp = rev['reviews_text'].apply(lambda x: lemmatize_sentence(x))
+            		temp1 = word_vectorizer.transform(temp)
+            		temp2 = sentiment_model.predict(temp1)
+            		pos = sum(temp2)
+            		total = len(temp2)
+            		percent = round(pos*100/total,2)
+            		top20.loc[top20['name'] == prod, ['Positive Sentiment(%)']] = percent
 
     
-    temp = top20.sort_values(by="Positive Sentiment(%)",ascending=False)#[0:5]
-    if temp.shape[0] > 5:
-        top5 =  temp[0:5]
-    else:
-        top5 =  temp
-    #top5.shape
-    top5['score'] = round(top5['score'],2)
+    	temp = top20.sort_values(by="Positive Sentiment(%)",ascending=False)#[0:5]
+    	if temp.shape[0] > 5:
+        	top5 =  temp[0:5]
+    	else:
+        	top5 =  temp
+    	#top5.shape
+    	top5['score'] = round(top5['score'],2)
     
-    return  render_template('index.html',tables=[top5.to_html()], titles = top5.columns.values)
+    	return  render_template('index.html',tables=[top5.to_html()], titles = top5.columns.values)
 
 
 
 # Any HTML template in Flask App render_template
 
 if __name__ == '__main__' :
-    app.run(debug=True )  # this command will enable the run of your flask app or api
+	app.run(debug=True )  # this command will enable the run of your flask app or api
     
     #,host="0.0.0.0")
 
